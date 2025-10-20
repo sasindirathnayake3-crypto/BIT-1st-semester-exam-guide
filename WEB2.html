@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT පළමු Semester විභාග මාර්ගෝපදේශය</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals (Beige, Slate, Subtle Blue Accent) -->
+    <!-- Application Structure Plan: A single-page, scrollable study guide organized into four key thematic sections based on the provided summary documents: Computer Arithmetic, Set Theory, Algebra, and Probability/Stats. This structure directly addresses the user's need to understand exam topics. A sticky top navigation allows for quick access to each section. Within each section, a tabbed interface breaks down complex topics into smaller, manageable sub-topics (e.g., Linear vs. Quadratic equations). This layered approach enhances usability by preventing information overload and allowing the user to focus on one concept at a time. The flow is from foundational concepts (number systems) to more abstract ones (probability). -->
+    <!-- Visualization & Content Choices: 1. Overview Donut Chart: Report Info -> Exam topic importance. Goal -> Inform/Orient. Viz -> Chart.js Donut Chart. Interaction -> Hover tooltips. Justification -> Provides a quick visual summary of high-yield topics, guiding the user's study focus. Library -> Chart.js (Canvas). 2. Tabbed Content Panes: Report Info -> Detailed concepts from lecture slides. Goal -> Organize/Explain. Presentation -> HTML/Tailwind tabs. Interaction -> Click to show/hide content. Justification -> Segments dense information into digestible chunks, improving readability and user control. Method -> Vanilla JS. 3. Concept & Example Cards: Report Info -> Definitions, formulas, solved problems. Goal -> Inform/Demonstrate. Presentation -> Styled HTML cards. Interaction -> None. Justification -> Clearly separates theoretical points from practical examples, aiding comprehension. Method -> HTML/Tailwind. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans Sinhala', sans-serif;
+            background-color: #FDFBF6;
+            color: #3C3633;
+        }
+        .tab-active {
+            background-color: #79665B;
+            color: #FDFBF6;
+            border-color: #79665B;
+        }
+        .tab-inactive {
+            background-color: #EFEBE5;
+            color: #79665B;
+            border-color: #E0D8CC;
+        }
+        .nav-active {
+            color: #EEEDEB;
+            background-color: #79665B;
+        }
+        .nav-inactive {
+            color: #79665B;
+        }
+        .section-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E0D8CC;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        .section-card:hover {
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav id="navbar" class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-[#79665B]">BIT විභාග මාර්ගෝපදේශය</h1>
+            <div class="hidden md:flex space-x-4">
+                <a href="#overview" class="nav-link nav-inactive font-semibold px-3 py-2 rounded-md hover:bg-[#EFEBE5] transition">ප්‍රධාන කරුණු</a>
+                <a href="#arithmetic" class="nav-link nav-inactive font-semibold px-3 py-2 rounded-md hover:bg-[#EFEBE5] transition">පරිගණක ගණිතය</a>
+                <a href="#sets" class="nav-link nav-inactive font-semibold px-3 py-2 rounded-md hover:bg-[#EFEBE5] transition">කූලක සහ සබඳතා</a>
+                <a href="#algebra" class="nav-link nav-inactive font-semibold px-3 py-2 rounded-md hover:bg-[#EFEBE5] transition">වීජ ගණිතය</a>
+                <a href="#probability" class="nav-link nav-inactive font-semibold px-3 py-2 rounded-md hover:bg-[#EFEBE5] transition">සම්භාවිතාව</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <!-- Overview Section -->
+        <section id="overview" class="mb-12 pt-16 -mt-16">
+            <div class="section-card p-6 md:p-8">
+				<h1 style="color:#79665B;font-size:60px;" align="center "><b>Mathematics & Statisticsfor IT</b></h1><hr><br>
+                <h2 class="text-2xl md:text-3xl font-bold text-center mb-6 text-[#79665B]">විභාගයේදී වැඩි අවධානයක් යොමු කළ යුතු අංශ</h2>
+                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">මෙම විෂය සඳහා වන ප්‍රායෝගික පරීක්ෂණයේදී, ඔබේ ගණනය කිරීමේ හැකියාව සහ මූලික සංකල්ප යොදාගෙන ගැටළු විසඳීමේ හැකියාව මැන බලයි. පහත සටහන මඟින් එක් එක් මාතෘකාවට හිමිවිය හැකි වැදගත්කම පිළිබඳ අදහසක් ලබා දේ.</p>
+                <div class="chart-container relative h-80 md:h-96 w-full max-w-lg mx-auto">
+                    <canvas id="topicsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Computer Systems Arithmetic Section -->
+        <section id="arithmetic" class="mb-12 pt-16 -mt-16">
+            <div class="section-card p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-bold mb-2 text-[#79665B]">1. පරිගණක පද්ධති ගණිතය</h2>
+                <p class="text-gray-600 mb-6">මෙය විභාගයේ ප්‍රායෝගිකම සහ ලකුණු ලබාගත හැකිම කොටසයි. පරිගණකයක් ක්‍රියාත්මක වන ආකාරය හා සෘජුවම සම්බන්ධ වන නිසා, මෙම ගණනය කිරීම් ඉතා ඉක්මනින් හා නිවැරදිව සිදු කිරීමට පුහුණු විය යුතුය.</p>
+                
+                <div class="tabs">
+                    <div class="flex border-b border-gray-300">
+                        <button data-tab-target="#number-systems" class="tab-btn tab-active text-sm md:text-base font-semibold py-2 px-4 border-b-2">සංඛ්‍යා පද්ධති</button>
+                        <button data-tab-target="#twos-complement" class="tab-btn tab-inactive text-sm md:text-base font-semibold py-2 px-4">Two's Complement</button>
+                    </div>
+
+                    <div id="number-systems" class="tab-content py-4">
+                        <h3 class="text-xl font-semibold mb-3 text-gray-800">සංඛ්‍යා පද්ධති පරිවර්තනය</h3>
+                        <p class="mb-4">දශම, ද්වීමය, අෂ්ටමය, සහ ෂඩ්දශමය (Decimal, Binary, Octal, Hexadecimal) යන සංඛ්‍යා පද්ධති අතර අගයක් පරිවර්තනය කිරීමට ප්‍රශ්න පැමිණේ.</p>
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200">
+                            <h4 class="font-bold text-gray-700">උදාහරණ ප්‍රශ්නය:</h4>
+                            <p class="mt-2 text-gray-600">දශම සංඛ්‍යාව <span class="font-bold">157</span>, ද්වීමය, අෂ්ටමය, සහ ෂඩ්දශමය අගයන් බවට පරිවර්තනය කරන්න.</p>
+                            <div class="mt-3 text-sm">
+                                <p><span class="font-semibold">ද්වීමය (Binary):</span> 10011101_2</p>
+                                <p><span class="font-semibold">අෂ්ටමය (Octal):</span> 235_8</p>
+                                <p><span class="font-semibold">ෂඩ්දශමය (Hexadecimal):</span> 9D_{16}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="twos-complement" class="tab-content py-4 hidden">
+                         <h3 class="text-xl font-semibold mb-3 text-gray-800">Two's Complement Arithmetic</h3>
+                        <p class="mb-4">සෘණ සංඛ්‍යා නිරූපණය කිරීමට සහ ද්වීමය අඩුකිරීම් සිදු කිරීමට Two's Complement ක්‍රමය භාවිත කරයි. নির্দিষ্ট බිටු සංඛ්‍යාවකින් (උදා: 8-bit) සෘණ අගයක් නිරූපණය කිරීමට අනිවාර්යයෙන්ම ප්‍රශ්නයක් පැමිණේ.</p>
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200">
+                            <h4 class="font-bold text-gray-700">උදාහරණ ප්‍රශ්නය:</h4>
+                            <p class="mt-2 text-gray-600">8-bit Two's Complement ක්‍රමය භාවිතයෙන් <span class="font-bold">-25</span> නිරූපණය කර, <span class="font-bold">50 - 25</span> ගණනය කරන්න.</p>
+                            <div class="mt-3 text-sm">
+                                <p><span class="font-semibold">+25:</span> 00011001</p>
+                                <p><span class="font-semibold">-25 (Two's Complement):</span> 11100111</p>
+                                <p><span class="font-semibold">50 - 25 (50 + (-25)):</span> <br> 00110010 (+50) <br> + 11100111 (-25) <br> = (1)00011001 (+25). Carry bit එක නොසලකා හරිනු ලැබේ.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sets and Relations Section -->
+        <section id="sets" class="mb-12 pt-16 -mt-16">
+            <div class="section-card p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-bold mb-2 text-[#79665B]">2. කූලක, සබඳතා සහ ශ්‍රිත</h2>
+                <p class="text-gray-600 mb-6">මෙහිදී කූලක මෙහෙයුම්, වෙන් රූප සටහන් සහ සබඳතාවල ගුණාංග (Properties of Relations) පිළිබඳව ගැටළු පැමිණේ. සංකල්ප තේරුම් ගැනීම ඉතා වැදගත් වේ.</p>
+                
+                <div class="tabs">
+                    <div class="flex border-b border-gray-300">
+                        <button data-tab-target="#set-operations" class="tab-btn tab-active text-sm md:text-base font-semibold py-2 px-4 border-b-2">කූලක මෙහෙයුම්</button>
+                        <button data-tab-target="#relations" class="tab-btn tab-inactive text-sm md:text-base font-semibold py-2 px-4">සබඳතා</button>
+                    </div>
+
+                    <div id="set-operations" class="tab-content py-4">
+                        <h3 class="text-xl font-semibold mb-3 text-gray-800">කූලක මෙහෙයුම් සහ වෙන් රූප සටහන්</h3>
+                        <p class="mb-4">Inclusion-Exclusion Principle වැනි සිද්ධාන්ත භාවිතයෙන් කූලකයක ඇති உறுப்பு සංඛ්‍යාව ගණනය කිරීමට සහ වෙන් රූප සටහන් ඇඳීමට අදාළ ගැටළු බලාපොරොත්තු විය හැක.</p>
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200">
+                            <h4 class="font-bold text-gray-700">උදාහරණ ප්‍රශ්නය:</h4>
+                            <p class="mt-2 text-gray-600">ශිෂ්‍යයින් 100 දෙනෙකුගෙන්, 60ක් වැඩසටහන්කරණය (P) ද, 45ක් ගණිතය (M) ද, 20ක් දෙකම ද හදාරයි. විෂයන් දෙකෙන් එකක්වත් නොහදාරන ශිෂ්‍යයින් ගණන කොපමණද?</p>
+                             <div class="mt-3 text-sm">
+                                <p><span class="font-semibold">විසඳුම:</span> |P ∪ M| = |P| + |M| - |P ∩ M| = 60 + 45 - 20 = 85.</p>
+                                <p>එකක්වත් නොහදාරන අය = මුළු ගණන - |P ∪ M| = 100 - 85 = 15.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="relations" class="tab-content py-4 hidden">
+                         <h3 class="text-xl font-semibold mb-3 text-gray-800">සබඳතාවල ගුණාංග (Properties of Relations)</h3>
+                        <p class="mb-4">දී ඇති සබඳතාවක් ස්වයංවර්තී (Reflexive), සමමිතික (Symmetric), සහ සංක්‍රාන්ති (Transitive) යන ගුණාංග සපුරන්නේ දැයි පරීක්ෂා කිරීමට අදාළ ප්‍රශ්න පැමිණිය හැක.</p>
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200">
+                            <h4 class="font-bold text-gray-700">උදාහරණ ප්‍රශ්නය:</h4>
+                            <p class="mt-2 text-gray-600">A = {1, 2, 3} කූලකය මත R = {(1,1), (1,2), (2,1), (2,2), (3,3)} සබඳතාව සමමිතික (Symmetric) වේද? එසේ නොවේ නම්, එහි symmetric closure එක සොයන්න.</p>
+                             <div class="mt-3 text-sm">
+                                <p><span class="font-semibold">විසඳුම:</span> සබඳතාව සමමිතික වේ. මන්ද, (1,2) ඇති විට (2,1) ද පවතී. අනෙක් සියලුම යුගල (a,a) ආකාරයේ වේ.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Algebra and Functions Section -->
+        <section id="algebra" class="mb-12 pt-16 -mt-16">
+            <div class="section-card p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-bold mb-2 text-[#79665B]">3. වීජ ගණිතය සහ ශ්‍රිත</h2>
+                <p class="text-gray-600 mb-6">මෙහිදී සරල ගණනය කිරීමේ ගැටළු බලාපොරොත්තු විය හැක. රේඛීය සහ වර්ගජ සමීකරණ විසඳීම සහ වීජීය ප්‍රකාශන සරල කිරීම ප්‍රධාන වේ.</p>
+                
+                <div class="tabs">
+                    <div class="flex border-b border-gray-300">
+                        <button data-tab-target="#equations" class="tab-btn tab-active text-sm md:text-base font-semibold py-2 px-4 border-b-2">සමීකරණ</button>
+                        <button data-tab-target="#simplification" class="tab-btn tab-inactive text-sm md:text-base font-semibold py-2 px-4">සරල කිරීම</button>
+                        <button data-tab-target="#functions-alg" class="tab-btn tab-inactive text-sm md:text-base font-semibold py-2 px-4">ශ්‍රිත</button>
+                    </div>
+
+                    <div id="equations" class="tab-content py-4">
+                        <h3 class="text-xl font-semibold mb-3 text-gray-800">රේඛීය සහ වර්ගජ සමීකරණ</h3>
+                        <p class="mb-4">දී ඇති රේඛීය හෝ වර්ගජ සමීකරණයක් හෝ සමීකරණ පද්ධතියක් විසඳීමට අදාළ ප්‍රශ්න පැමිණේ. වර්ගජ සමීකරණ සඳහා වර්ගජ සූත්‍රය (quadratic formula) භාවිත කිරීමට සිදු විය හැක.</p>
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200">
+                            <h4 class="font-bold text-gray-700">උදාහරණ ප්‍රශ්නය:</h4>
+                            <p class="mt-2 text-gray-600">x^2 - 5x + 6 = 0 වර්ගජ සමීකරණය විසඳන්න.</p>
+                            <div class="mt-3 text-sm">
+                                <p><span class="font-semibold">විසඳුම (සාධක මගින්):</span> (x-2)(x-3) = 0. <br>එම නිසා, x = 2 හෝ x = 3.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="simplification" class="tab-content py-4 hidden">
+                        <h3 class="text-xl font-semibold mb-3 text-gray-800">වීජීය ප්‍රකාශන සරල කිරීම</h3>
+                        <p class="mb-4">සංකීර්ණ වීජීය ප්‍රකාශනයක් සරලම ආකාරයට ගෙන ඒමට අදාළ ගැටළු මෙහිදී පැමිණේ. සමාන පද (like terms) එකතු කිරීම, අඩු කිරීම සහ distributive property වැනි නීති භාවිත කිරීමට සිදුවේ.</p>
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200">
+                            <h4 class="font-bold text-gray-700">උදාහරණ ප්‍රශ්නය:</h4>
+                            <p class="mt-2 text-gray-600">3(x + 2y) - (2x - y) ප්‍රකාශනය සරල කරන්න.</p>
+                             <div class="mt-3 text-sm">
+                                <p><span class="font-semibold">විසඳුම:</span> 3x + 6y - 2x + y = (3x - 2x) + (6y + y) = x + 7y.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="functions-alg" class="tab-content py-4 hidden">
+                        <h3 class="text-xl font-semibold mb-3 text-gray-800">ශ්‍රිත (Functions)</h3>
+                        <p class="mb-4">ශ්‍රිතයක් සඳහා ප්‍රාන්තය (domain) සහ පරාසය (range) නිර්ණය කිරීම හෝ දී ඇති ආදාන අගයක් සඳහා ප්‍රතිදානය (output) ගණනය කිරීම වැනි ප්‍රශ්න පැමිණිය හැක.</p>
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200">
+                            <h4 class="font-bold text-gray-700">උදාහරණ ප්‍රශ්නය:</h4>
+                            <p class="mt-2 text-gray-600">f(x) =  √{x-4} ශ්‍රිතයේ ප්‍රාන්තය (domain) සොයන්න.</p>
+                             <div class="mt-3 text-sm">
+                                <p><span class="font-semibold">විසඳුම:</span> වර්ගමූලය තුළ සෘණ අගයක් තිබිය නොහැකි නිසා, x-4 \ge 0. <br>එම නිසා, x \ge 4. ප්‍රාන්තය [4, ∾) වේ.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Probability Section -->
+        <section id="probability" class="pt-16 -mt-16">
+            <div class="section-card p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-bold mb-2 text-[#79665B]">4. සම්භාවිතාව සහ සංඛ්‍යානය</h2>
+                <p class="text-gray-600 mb-6">මෙහිදී මූලික සම්භාවිතා සිද්ධාන්ත, පර්යත්න (Permutations), සංයෝජන (Combinations) සහ Bayesian Inference වැනි සංකල්ප පිළිබඳව අවධානය යොමු කෙරේ.</p>
+                
+                <div class="tabs">
+                    <div class="flex border-b border-gray-300">
+                        <button data-tab-target="#perm-comb" class="tab-btn tab-active text-sm md:text-base font-semibold py-2 px-4 border-b-2">පර්යත්න සහ සංයෝජන</button>
+                        <button data-tab-target="#prob-basics" class="tab-btn tab-inactive text-sm md:text-base font-semibold py-2 px-4">මූලික සම්භාවිතාව</button>
+                        <button data-tab-target="#bayesian" class="tab-btn tab-inactive text-sm md:text-base font-semibold py-2 px-4">Bayesian Inference</button>
+                    </div>
+
+                    <div id="perm-comb" class="tab-content py-4">
+                        <h3 class="text-xl font-semibold mb-3 text-gray-800">Permutations and Combinations</h3>
+                        <p class="mb-4">දී ඇති අයිතම සමූහයකින්, පිළිවෙළ සලකමින් (Permutation) හෝ නොසලකමින් (Combination) තෝරාගත හැකි ආකාර ගණන සෙවීමට අදාළ ගැටළු පැමිණේ.</p>
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200">
+                            <h4 class="font-bold text-gray-700">උදාහරණ ප්‍රශ්නය:</h4>
+                            <p class="mt-2 text-gray-600">පුද්ගලයින් 10 දෙනෙකුගෙන් යුත් කමිටුවකින්, සභාපති, ලේකම් සහ භාණ්ඩාගාරික යන තනතුරු සඳහා තිදෙනෙකු තෝරාගත හැකි ආකාර ගණන කීයද?</p>
+                             <div class="mt-3 text-sm">
+                                <p><span class="font-semibold">විසඳුම:</span> මෙහිදී පිළිවෙළ වැදගත් නිසා, මෙය පර්යත්නයකි (Permutation). <br> _{10}P_3 = {10!}/{(10-3)!} = 10 x 9 x 8 = 720.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="prob-basics" class="tab-content py-4 hidden">
+                        <h3 class="text-xl font-semibold mb-3 text-gray-800">මූලික සම්භාවිතා සිද්ධාන්ත</h3>
+                        <p class="mb-4">සිද්ධියක සම්භාවිතාව ගණනය කිරීම, අන්‍යෝන්‍ය වශයෙන් බහිෂ්කාර (mutually exclusive) සහ ස්වායත්ත (independent) සිද්ධි හඳුනාගැනීම වැනි මූලික සංකල්ප මත පදනම් වූ ගැටළු පැමිණේ.</p>
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200">
+                            <h4 class="font-bold text-gray-700">උදාහරණ ප්‍රශ්නය:</h4>
+                            <p class="mt-2 text-gray-600">සාමාන්‍ය කාඩ් කුට්ටමකින් අහඹු ලෙස කාඩ්පතක් තෝරාගත් විට, එය රජෙකු (King) හෝ හෘද (Heart) කාඩ්පතක් වීමේ සම්භාවිතාව කුමක්ද?</p>
+                             <div class="mt-3 text-sm">
+                                <p>P(K) = 4/52. P(H) = 13/52. P(K ∩ H) = 1/52 (හෘද රජු).</p>
+                                <p>P(K ∪ H) = P(K) + P(H) - P(K ∩ H) = 4/52 + 13/52 - 1/52 = 16/52 = 4/13.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="bayesian" class="tab-content py-4 hidden">
+                        <h3 class="text-xl font-semibold mb-3 text-gray-800">Bayesian Inference</h3>
+                        <p class="mb-4">Bayes' Theorem යනු පූර්ව දැනුම (prior knowledge) සහ නිරීක්ෂණය කරන ලද දත්ත (observed data) මත පදනම්ව යම් සිදුවීමක සම්භාවිතාව යාවත්කාලීන කරන ක්‍රමයකි. මෙහි මූලික සිද්ධාන්තය සහ සූත්‍රය මතක තබා ගැනීම වැදගත් වේ.</p>
+                        <div class="bg-stone-50 p-4 rounded-lg border border-stone-200">
+                            <h4 class="font-bold text-gray-700">මූලික සූත්‍රය:</h4>
+                            <p class="mt-2 text-gray-600">P(A|B) = {P(B|A) ⋅ P(A)}/{P(B)}</p>
+                            <div class="mt-3 text-sm">
+                                <p>P(A|B) - Posterior: B සිදුවූ විට A හි සම්භාවිතාව.</p>
+                                <p>P(A) - Prior: A හි මූලික සම්භාවිතාව.</p>
+                                <p>P(B|A) - Likelihood: A සිදුවූ විට B හි සම්භාවිතාව.</p>
+                                <p>P(B) - Evidence: B හි සම්භාවිතාව.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <footer class="text-center py-6 bg-white border-t">
+        <p class="text-sm text-gray-500">විභාගයට සුභ පැතුම්!</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Tab switching logic
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = document.querySelector(tab.dataset.tabTarget);
+                    
+                    // Update button styles
+                    tab.parentElement.querySelectorAll('.tab-btn').forEach(t => {
+                        t.classList.remove('tab-active');
+                        t.classList.add('tab-inactive');
+                    });
+                    tab.classList.remove('tab-inactive');
+                    tab.classList.add('tab-active');
+
+                    // Show/hide content
+                    tab.closest('.tabs').querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.add('hidden');
+                    });
+                    target.classList.remove('hidden');
+                });
+            });
+
+            // Chart.js implementation
+            const ctx = document.getElementById('topicsChart').getContext('2d');
+            const topicsChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['පරිගණක පද්ධති ගණිතය', 'කූලක සහ සබඳතා', 'වීජ ගණිතය', 'සම්භාවිතාව'],
+                    datasets: [{
+                        label: 'විභාගයේදී ඇති විය හැකි වැදගත්කම',
+                        data: [40, 25, 20, 15],
+                        backgroundColor: [
+                            '#79665B', // Darker Brown
+                            '#A8958A', // Medium Brown
+                            '#D3C5BC', // Light Brown
+                            '#EFEBE5'  // Beige
+                        ],
+                        borderColor: '#FDFBF6',
+                        borderWidth: 4,
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    family: "'Noto Sans Sinhala', sans-serif",
+                                    size: 14,
+                                },
+                                color: '#3C3633'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '60%'
+                }
+            });
+
+            // Navbar scroll behavior
+            const navbar = document.getElementById('navbar');
+            const navLinks = navbar.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const navLink = navbar.querySelector(`a[href="#{entry.target.id}"]`);
+                        navLinks.forEach(link => {
+                            link.classList.remove('nav-active');
+                            link.classList.add('nav-inactive');
+                        });
+                        if (navLink) {
+                            navLink.classList.add('nav-active');
+                            navLink.classList.remove('nav-inactive');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+             // Smooth scroll for nav links
+            navLinks.forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

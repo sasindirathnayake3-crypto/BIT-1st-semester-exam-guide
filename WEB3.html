@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT 1st Semester Subject Overview</title>
+    <style>
+        /* මූලික ශෛලීකරණය (Basic Styling) */
+        :root {
+            --primary-color: #004d99; /* Deep Blue */
+            --secondary-color: #f7f7f7; /* Light Gray */
+            --text-color: #333;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        /* සංචලනය (Navigation) */
+        nav {
+            background-color: #e0eaf3;
+            padding: 10px 0;
+            text-align: center;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            padding: 5px 15px;
+            margin: 0 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #c9d7e5;
+            border-radius: 5px;
+        }
+
+        /* අන්තර්ගතය (Content Sections) */
+       .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        section {
+            background-color: white;
+            padding: 20px 30px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        section h2 {
+            color: var(--primary-color);
+            border-bottom: 3px solid #ffd700; /* Gold accent */
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        /* වගු (Tables) */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #e0f2f7;
+            color: var(--primary-color);
+        }
+
+        /* Key Areas Table Styling */
+        #key-areas-table td:nth-child(1) {
+            font-weight: bold;
+            color: #d9534f; /* Red for emphasis */
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 0.9em;
+            margin-top: 30px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>BIT විභාග මාර්ගෝපදේශය</h1>
+		<h1 style="color:#fff;font-size:60px;" align="center "><b>Computer Systems </b></h1>
+        
+    </header>
+
+    <nav>
+        <a href="#core">පරිගණක පද්ධති</a> | 
+        <a href="#data">දත්ත නිරූපණය</a> | 
+        <a href="#logic">බූලීය වීජ ගණිතය</a> | 
+        <a href="#x86">x86 ගෘහ නිර්මාණ ශිල්පය</a> | 
+        <a href="#assembly">Assembly භාෂාව</a>
+    </nav>
+
+    <div class="container">
+        
+        <section id="core">
+            <h2>II. පරිගණක පද්ධති මූලික සංකල්ප සහ සංවිධානය</h2>
+            <p>පරිගණක පද්ධතියක මූලික ක්‍රියාවලීන් වන්නේ ආදානය (Input), සැකසීම (Process), ප්‍රතිදානය (Output) සහ ගබඩා කිරීම (Storage) යි.[1]</p>
+            
+            <h3>බහු-මට්ටම් යන්ත්‍ර ධුරාවලිය (Six-Level Machine Hierarchy)</h3>
+            <p>නවීන පරිගණක පද්ධති ඉහළ මට්ටමේ ක්‍රමලේඛන භාෂාවල (Level 5) සිට පහළම මට්ටමේ භෞතික පරිපථ (Level 0) දක්වා මට්ටම් හයකින් යුත් ධුරාවලියක් ලෙස ක්‍රියාත්මක වේ. මෙහිදී පරිවර්තනය (Translation) සහ අර්ථකථනය (Interpretation) මූලික වේ.[1]</p>
+
+            <h3>වොන් නියුමාන් ගෘහ නිර්මාණ ශිල්පය (Von Neumann Architecture)</h3>
+            <p>උපදෙස් සහ දත්ත තනි පොදු මතකයක ගබඩා කිරීමේ (Stored-Program Concept) මූලධර්මය මෙහි පදනමයි. මතකය සහ CPU අතර ඇති <strong>Von Neumann Bottleneck</strong> කාර්ය සාධනය සීමා කරයි.[2]</p>
+        </section>
+
+        <section id="data">
+            <h2>III. දත්ත නිරූපණය සහ සංඛ්‍යා පද්ධති</h2>
+            
+            <h3>සංඛ්‍යා පද්ධති මූලික සංකල්ප</h3>
+            <table>
+                <thead>
+                    <tr><th>පද්ධතිය</th><th>පාදම (R)</th><th>භාවිතා වන සංකේත</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Decimal</td><td>10</td><td>0-9</td></tr>
+                    <tr><td>Binary</td><td>2</td><td>0, 1</td></tr>
+                    <tr><td>Hexadecimal</td><td>16</td><td>0-9, A-F (10-15) [1]</td></tr>
+                </tbody>
+            </table>
+            <p><strong>පරිවර්තන ක්‍රමවේද:</strong> Decimal සිට වෙනත් පාදමකට පරිවර්තනය සඳහා පූර්ණ සංඛ්‍යා කොටස් <strong>අනුක්‍රමික බෙදීම</strong> මඟින් ද, භාග කොටස් <strong>අනුක්‍රමික ගුණ කිරීම</strong> මඟින් ද සිදු කෙරේ.[1]</p>
+        </section>
+
+        <section id="logic">
+            <h2>IV. සංඛ්‍යාංක තර්කනය සහ බූලීය වීජ ගණිතය</h2>
+            
+            <h3>ක්‍රියාකාරක ප්‍රමුඛතා නීති (Operator Precedence)</h3>
+            <ol>
+                <li>වරහන් (Parentheses)</li>
+                <li>පූරණය කිරීම (NOT)</li>
+                <li>Logical Multiplication (AND)</li>
+                <li>Logical Addition (OR) </li>
+            </ol>
+            
+            <h3>සංකලන තර්ක පරිපථ සැලසුම් ක්‍රියාවලිය (6-Step Procedure)</h3>
+            <p>ගැටලුව නිශ්චිතව ප්‍රකාශ කිරීමේ සිට, සත්‍යතා වගුව නිර්මාණය කර, බූලීය ප්‍රකාශන සරල කර අවසානයේ තර්ක රූප සටහන ඇඳීම දක්වා පියවර අනුගමනය කෙරේ.[1]</p>
+        </section>
+
+        <section id="x86">
+            <h2>V. පරිගණක සංවිධානය: x86 රෙජිස්ටර සහ මතක ආමන්ත්‍රණය</h2>
+            
+            <h3>සාමාන්‍ය කාර්යය රෙජිස්ටර (GPRs)</h3>
+            <table>
+                <thead>
+                    <tr><th>රෙජිස්ටරය</th><th>විශේෂ කාර්යභාරය</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>AX</td><td>Primary Accumulator</td></tr>
+                    <tr><td>BX</td><td>Base Register (ආමන්ත්‍රණයේදී දර්ශකය ලෙස) [1]</td></tr>
+                    <tr><td>CX</td><td>Count Register (Loops පාලනය) [1]</td></tr>
+                    <tr><td>IP / CS:IP</td><td>Instruction Pointer (ඊළඟ උපදේශනයේ Offset) [1]</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Segment:Offset ආමන්ත්‍රණය</h3>
+            <p>මතක ලිපිනය ගණනය කිරීම: <code>(Segment Register Value × 10h) + Offset Value</code>.[1]</p>
+        </section>
+        
+        <section id="assembly">
+            <h2>VI. එකලස් භාෂා ක්‍රමලේඛන මූලධර්ම</h2>
+            
+            <h3>දත්ත හුවමාරු සහ ගණිතමය උපදෙස්</h3>
+            <p>MOV, ADD, CMP, JNZ (Jump if Not Zero) වැනි උපදෙස් ප්‍රධාන වේ. විශේෂයෙන්, ගණිතමය මෙහෙයුම් ප්‍රශස්තකරණය සඳහා <code>MUL</code> (ගුණ කිරීම) උපදේශයට වඩා <strong><code>SHL</code> (Shift Left)</strong> උපදේශනය භාවිතය නිර්දේශ කෙරේ.[1]</p>
+        </section>
+
+        <section id="key-areas">
+            <h2>VII. විභාගය සඳහා ප්‍රධාන අවධානය යොමු කළ යුතු ක්ෂේත්‍ර</h2>
+            <table id="key-areas-table">
+                <thead>
+                    <tr><th>විභාග ක්ෂේත්‍රය</th><th>අවධානය යොමු කළ යුතු ප්‍රායෝගික කරුණ</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>දත්ත නිරූපණය</td><td>Decimal  ⥨ Binary/Hex පරිවර්තන (පූර්ණ සහ භාග සහිතව).[1]</td></tr>
+                    <tr><td>x86 මතක ආමන්ත්‍රණය</td><td>Segment:Offset ලිපින ගණනය කිරීම් (Hexadecimal එකතු කිරීම්).[1]</td></tr>
+                    <tr><td>Assembly Language</td><td>Bit Shifting Optimization සහ Loop ව්‍යුහයන්.[1]</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2025 BIT 1st Semester Research Guide | විශ්ලේෂණ වාර්තාව ඇසුරෙනි</p>
+    </footer>
+	<script>document.addEventListener('contextmenu', event => event.preventDefault());</script>
+</body>
+</html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT පළමු වසර: විභාග මාර්ගෝපදේශය</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals with Teal Accent -->
+    <!-- Application Structure Plan: The application is designed using a thematic structure rather than a chronological lesson-by-lesson view. The content from the source PDF is categorized into four main pillars: Grammar, Composition, Communication Skills, and Vocabulary/Reading. This structure helps the student to synthesize and connect related concepts, which is more effective for exam preparation. The user flow starts with a visual dashboard (a bar chart) summarizing the importance of each theme, followed by an interactive accordion. Each accordion section represents a theme, allowing the user to drill down into specific sub-topics without being overwhelmed. This progressive disclosure approach makes the information digestible and easy to navigate. -->
+    <!-- Visualization & Content Choices: 
+        1. Report Info: Overall curriculum content distribution -> Goal: Summarize key areas for exam focus -> Viz/Method: Bar Chart (Chart.js/Canvas) -> Interaction: Hover to see topic count -> Justification: Provides a quick, scannable visual overview of the most critical study areas, directly addressing the user's core question.
+        2. Thematic Content Groupings (e.g., all grammar topics) -> Goal: Organize detailed information logically -> Viz/Method: Interactive Accordion (HTML/CSS/JS) -> Interaction: Click to expand/collapse sections -> Justification: Prevents information overload and allows the user to focus on one subject area at a time, creating a structured study path.
+        3. Specific Learning Outcomes -> Goal: Explain key concepts and potential exam questions -> Viz/Method: Styled Text Lists (HTML/Tailwind) -> Interaction: Reading -> Justification: Directly provides the "point-by-point" explanation the user requested in a clear, legible format.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Noto Sans Sinhala', sans-serif;
+            background-color: #FDFBF7;
+            color: #3f3f46;
+        }
+        .accordion-header {
+            transition: background-color 0.3s ease;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .accordion-icon {
+            transition: transform 0.5s ease;
+        }
+        .active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 250px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">BIT පළමු වසර විභාග මාර්ගෝපදේශය</h1>
+            <p class="text-lg text-gray-600">පළමු Semester එකේ ප්‍රධාන විෂය කරුණු සහ විභාගයට එන වැදගත් කොටස්<br>Communication skills<br></p>
+        </header><br><hr><br>
+		
+
+        <main>
+            <section id="overview" class="mb-12">
+                <h2 class="text-2xl font-bold text-center text-gray-700 mb-4">විෂය ක්ෂේත්‍රවල වැදගත්කම (Importance of Subject Areas)</h2>
+                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-6">
+                    මෙම ප්‍රස්ථාරය මගින් එක් එක් විෂය ක්ෂේත්‍රය සඳහා වෙන් කර ඇති පාඩම් සහ ක්‍රියාකාරකම් ගණන අනුව ඒවායේ සාපේක්ෂ වැදගත්කම පෙන්වයි. වැඩිම කොටස් ගණනක් ඇති ක්ෂේත්‍ර සඳහා වැඩි අවධානයක් යොමු කිරීම වැදගත් වේ.
+                </p>
+                <div class="bg-white rounded-xl shadow-md p-4 md:p-6">
+                    <div class="chart-container">
+                        <canvas id="importanceChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section id="detailed-breakdown">
+                <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">ප්‍රධාන විෂය ක්ෂේත්‍ර සහ විභාග ඉලක්ක</h2>
+                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">
+                    මෙම කොටසේදී, එක් එක් ප්‍රධාන විෂය ක්ෂේත්‍රය යටතේ ඇති පාඩම් සහ ඒවායින් විභාගයට ඇසිය හැකි කරුණු විස්තර කර ඇත. එක් එක් මාතෘකාව මත ක්ලික් කර වැඩි විස්තර ලබාගන්න.
+                </p>
+                <div id="accordion-container" class="space-y-4">
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const subjectData = [
+            {
+                theme: 'ව්‍යාකරණ (Grammar)',
+                icon: '⚖️',
+                count: 10,
+                description: 'ඉංග්‍රීසි භාෂාවේ නිවැරදි භාවිතය සඳහා අත්‍යවශ්‍ය වන මූලික නීති රීති සහ ව්‍යුහයන් මෙමගින් ආවරණය කෙරේ.',
+                subtopics: [
+                    { 
+                        title: 'Subject-Verb Agreement', 
+                        points: [
+                            'කර්තෘ පදයට (Subject) ගැලපෙන ලෙස ක්‍රියා පදය (Verb) යෙදීම.',
+                            'Singular subjects (He, She, It, a boy) සමග singular verbs (is, goes, writes) යෙදීම.',
+                            'Plural subjects (They, We, boys) සමග plural verbs (are, go, write) යෙදීම.',
+                            'විභාගයේදී හිස්තැන් පිරවීමට හෝ වැරදි වාක්‍ය නිවැරදි කිරීමට පැමිණිය හැක.'
+                        ] 
+                    },
+                    { 
+                        title: 'Tenses (කාල)', 
+                        points: [
+                            'Simple Present Tense: පුරුදු සහ සාමාන්‍ය සත්‍ය ප්‍රකාශ කිරීමට.',
+                            'Present Continuous Tense: කතා කරන මොහොතේ සිදුවන දේ ප්‍රකාශ කිරීමට.',
+                            'Negative Form: වාක්‍යයක් przecipation කිරීමට (don\'t, doesn\'t, isn\'t, aren\'t).',
+                            'විවිධ කාලවලට අදාළව වාක්‍ය ගොඩනැගීමට සහ පරිවර්තනය කිරීමට ප්‍රශ්න ඒමට පුළුවන.'
+                        ] 
+                    },
+                    {
+                        title: 'Adjectives and Adverbs (නාමවිශේෂණ සහ ක්‍රියා විශේෂණ)',
+                        points: [
+                            'Adjectives: නාම පදයක් (noun) විස්තර කරයි (e.g., a beautiful flower).',
+                            'Adverbs: ක්‍රියා පදයක් (verb), නාම විශේෂණයක් හෝ වෙනත් ක්‍රියා විශේෂණයක් විස්තර කරයි (e.g., she runs quickly).',
+                            'Comparisons: Adjectives සහ Adverbs වල comparative (e.g., taller, more quickly) සහ superlative (e.g., tallest, most quickly) ආකාර.',
+                            'හිස්තැන් සඳහා සුදුසු adjective/adverb යෙදීමට හෝ සංසන්දනාත්මක වාක්‍ය ගොඩනැගීමට පැමිණිය හැක.'
+                        ]
+                    },
+                    {
+                        title: 'Conjunctions (නිපාත පද)',
+                        points: [
+                            'වචන, වාක්‍ය ඛණ්ඩ හෝ වාක්‍ය එකිනෙක සම්බන්ධ කිරීමට යොදා ගනී.',
+                            'Coordinating conjunctions: and, but, or, so.',
+                            'Subordinating conjunctions: because, although, while, if.',
+                            'සුදුසු conjunctions ব্যবহার කරමින් වාක්‍ය දෙකක් සම්බන්ධ කිරීමට ප්‍රශ්න එవచ్చు.'
+                        ]
+                    },
+                    {
+                        title: 'Gerunds and Infinitives',
+                        points: [
+                            'Gerund: ක්‍රියා පදයකට ‘-ing’ එකතු වී නාම පදයක් ලෙස ක්‍රියා කිරීම (e.g., Swimming is good exercise).',
+                            'Infinitive: ‘to’ + a verb (e.g., I want to swim).',
+                            'සමහර verbs (enjoy, finish) පසු gerunds ද, සමහර verbs (want, decide) පසු infinitives ද යෙදේ.',
+                            'වාක්‍යයක හිස්තැනට gerund හෝ infinitive නිවැරදිව යෙදීමට අසනු ඇත.'
+                        ]
+                    },
+                    {
+                        title: 'Plurals and Irregular Verbs',
+                        points: [
+                            'Regular plurals (s/es যোগ করে) এবং Irregular plurals (e.g., man-men, child-children).',
+                            'Irregular verbs වල past (V2) සහ past participle (V3) ආකාර (e.g., go-went-gone).',
+                            'මෙම ආකාරයන් නිවැරදිව දැන සිටීම වාක්‍ය ගොඩනැගීමට අත්‍යවශ්‍ය වේ.'
+                        ]
+                    }
+                ]
+            },
+            {
+                theme: 'සන්නිවේදන කුසලතා (Communication Skills)',
+                icon: '🗣️',
+                count: 8,
+                description: 'සවන්දීම, කතා කිරීම සහ අන් අය සමග අදහස් හුවමාරු කරගැනීමේ හැකියාව වර්ධනය කිරීම මෙහි අරමුණයි.',
+                subtopics: [
+                    {
+                        title: 'Introductions and Dialogues',
+                        points: [
+                            'තමන්ව හඳුන්වා දීම (Introducing oneself).',
+                            'අන් අයව හඳුන්වා දීම (Introducing others).',
+                            'සංවාදයකදී භාවිතා කරන සුදුසු ප්‍රකාශන (expressions).',
+                            'විභාගයේදී කෙටි සංවාදයක් සම්පූර්ණ කිරීමට හෝ ගොඩනැගීමට පැමිණිය හැක.'
+                        ]
+                    },
+                    {
+                        title: 'Describing People and Objects',
+                        points: [
+                            'පුද්ගලයෙකුගේ හෝ වස්තුවක පෙනුම, ගතිගුණ විස්තර කිරීමට Adjectives භාවිතා කිරීම.',
+                            'පිළිවෙලකට (logical order) විස්තරය ගොඩනැගීම (e.g., general to specific).',
+                            'ලබා දී ඇති පින්තූරයක් හෝ මාතෘකාවක් යටතේ විස්තරයක් ලිවීමට පැමිණිය හැක.'
+                        ]
+                    },
+                    {
+                        title: 'Asking for and Giving Information',
+                        points: [
+                            '‘WH’ Question Words (What, Where, When, Who, Why, How) නිවැරදිව භාවිතා කිරීම.',
+                            'තොරතුරු විමසීමට සහ ලබා දීමට අදාළ ප්‍රශ්න සහ පිළිතුරු.',
+                            'විශේෂයෙන් රැකියා ಸಂದರ್ಶন වැනි අවස්ථාවලදී මෙය වැදගත් වේ.',
+                            'සංවාදයක් ඇසුරෙන් ප්‍රශ්නවලට පිළිතුරු දීමට හෝ ප්‍රශ්න ගොඩනැගීමට පැමිණිය හැක.'
+                        ]
+                    },
+                    {
+                        title: 'Presentations',
+                        points: [
+                            'Presentation එකක් සඳහා සූදානම් වන ආකාරය.',
+                            'Slides නිර්මාණය කිරීමේදී සැලකිය යුතු කරුණු.',
+                            'ප්‍රේක්ෂකයින් ඉදිරියේ පැහැදිලිව සහ විශ්වාසයෙන් යුතුව කතා කිරීම.',
+                            'ලබා දී ඇති මාතෘකාවකට අදාළව presentation එකක outline එකක් සකස් කිරීමට පැමිණිය හැක.'
+                        ]
+                    }
+                ]
+            },
+            {
+                theme: 'රචනා සහ ලේඛන කලාව (Composition)',
+                icon: '✍️',
+                count: 5,
+                description: 'අදහස් සංවිධානාත්මකව සහ පැහැදිලිව ලිඛිතව ප්‍රකාශ කිරීමේ හැකියාව මෙයින් මනිනු ලැබේ.',
+                subtopics: [
+                    {
+                        title: 'Paragraph Writing',
+                        points: [
+                            'ඡේදයක ප්‍රධාන කොටස්: Topic Sentence, Supporting Sentences, Concluding Sentence.',
+                            'අදහස් එකිනෙකට සම්බන්ධ කරමින් (cohesion and coherence) ඡේදය ගොඩනැගීම.',
+                            'ලබා දී ඇති මාතෘකාවක් යටතේ පැහැදිලි ඡේදයක් ලිවීමට අනිවාර්යයෙන්ම ප්‍රශ්නයක් පැමිණේ.'
+                        ]
+                    },
+                    {
+                        title: 'CV (Curriculum Vitae) Writing',
+                        points: [
+                            'CV එකක අඩංගු විය යුතු ප්‍රධාන කොටස් (Personal Details, Education, Work Experience, Skills etc.).',
+                            'තොරතුරු කෙටියෙන්, පැහැදිලිව සහ නිවැරදිව ඉදිරිපත් කිරීම.',
+                            'Professional format එකක් භාවිතා කිරීම.',
+                            'ලබා දී ඇති රැකියා දැන්වීමකට ගැලපෙන ලෙස CV එකක් සකස් කිරීමට පැමිණිය හැක.'
+                        ]
+                    },
+                    {
+                        title: 'Cover Letters',
+                        points: [
+                            'CV එක සමග යවන, රැකියාව සඳහා ඇති උනන්දුව සහ සුදුසුකම් පෙන්වන ලිපිය.',
+                            'Cover Letter එකක නිවැරදි ආකෘතිය (format).',
+                            'Job Advertisement එකට අදාළව තමන්ගේ කුසලතා ඉස්මතු කර දැක්වීම.',
+                            'CV එකට සමගාමීව Cover Letter එකක් ලිවීමටද පැමිණිය හැක.'
+                        ]
+                    }
+                ]
+            },
+            {
+                theme: 'වචන මාලාව සහ කියවීම (Vocabulary & Reading)',
+                icon: '📚',
+                count: 6,
+                description: 'ඉංග්‍රීසි භාෂාවේ වචන දැනුම සහ කියවීමේ අවබෝධය වැඩි දියුණු කිරීම කෙරෙහි අවධානය යොමු කෙරේ.',
+                subtopics: [
+                    {
+                        title: 'Reading and Skimming',
+                        points: [
+                            'Skimming: ලිපියක ඇති ප්‍රධාන අදහස් ඉක්මනින් හඳුනා ගැනීම සඳහා වේගයෙන් කියවීම.',
+                            'Scanning: නිශ්චිත තොරතුරක් (e.g., a name, a date) සෙවීම සඳහා වේගයෙන් කියවීම.',
+                            'ලබා දී ඇති ඡේදයක් කියවා ප්‍රශ්නවලට පිළිතුරු දීමට (Comprehension) පැමිණේ. Skimming සහ Scanning උපක්‍රම ඒ සඳහා වැදගත් වේ.'
+                        ]
+                    },
+                    {
+                        title: 'Vocabulary Focus',
+                        points: [
+                            'පාඩම් වලට අදාළව අලුත් වචන සහ ඒවායේ තේරුම්.',
+                            'Words for Job Seekers: රැකියා ක්ෂේත්‍රයට අදාළ විශේෂිත වචන.',
+                            'සමාන පද (synonyms), විරුද්ධ පද (antonyms) සහ නිවැරදි වචනයෙන් හිස්තැන් පිරවීම වැනි ප්‍රශ්න බලාපොරොත්තු විය හැක.'
+                        ]
+                    },
+                    {
+                        title: 'Listening Activities',
+                        points: [
+                            'ශ්‍රවණය කිරීමේ හැකියාව (listening skills) පරීක්ෂා කිරීම.',
+                            'කෙටි සංවාද, නිවේදන හෝ presentations අසා ඒ ඇසුරෙන් ප්‍රශ්නවලට පිළිතුරු දීම.',
+                            'විභාගයේදී listening component එකක් තිබේ නම්, ප්‍රධාන කරුණු හඳුනා ගැනීමට පුහුණු වීම වැදගත්.'
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const chartCtx = document.getElementById('importanceChart').getContext('2d');
+            new Chart(chartCtx, {
+                type: 'bar',
+                data: {
+                    labels: subjectData.map(item => item.theme),
+                    datasets: [{
+                        label: 'පාඩම් සහ ක්‍රියාකාරකම් ගණන',
+                        data: subjectData.map(item => item.count),
+                        backgroundColor: [
+                            'rgba(20, 83, 116, 0.7)',
+                            'rgba(245, 158, 11, 0.7)',
+                            'rgba(16, 142, 126, 0.7)',
+                            'rgba(217, 70, 239, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(20, 83, 116, 1)',
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(16, 142, 126, 1)',
+                            'rgba(217, 70, 239, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#e5e7eb'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: '#1f2937',
+                            titleFont: {
+                                size: 14,
+                                family: "'Noto Sans Sinhala', sans-serif"
+                            },
+                            bodyFont: {
+                                size: 12,
+                                family: "'Noto Sans Sinhala', sans-serif"
+                            }
+                        }
+                    }
+                }
+            });
+
+            const accordionContainer = document.getElementById('accordion-container');
+            subjectData.forEach(item => {
+                const itemEl = document.createElement('div');
+                itemEl.className = 'rounded-lg overflow-hidden shadow-sm border border-gray-200';
+                
+                let subtopicsHtml = item.subtopics.map(sub => `
+                    <div class="px-4 md:px-6 py-4 border-t border-gray-200">
+                        <h4 class="font-semibold text-lg text-teal-800">${sub.title}</h4>
+                        <ul class="mt-2 list-disc list-inside space-y-1 text-gray-700">
+                            ${sub.points.map(point => `<li>${point}</li>`).join('')}
+                        </ul>
+                    </div>
+                `).join('');
+
+                itemEl.innerHTML = `
+                    <button class="accordion-header w-full flex justify-between items-center text-left p-4 md:p-5 bg-white hover:bg-teal-50">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-4">${item.icon}</span>
+                            <div>
+                                <h3 class="font-bold text-xl text-gray-800">${item.theme}</h3>
+                                <p class="text-sm text-gray-500 hidden md:block">${item.description}</p>
+                            </div>
+                        </div>
+                        <span class="accordion-icon text-2xl text-teal-600">▼</span>
+                    </button>
+                    <div class="accordion-content bg-white">
+                        ${subtopicsHtml}
+                    </div>
+                `;
+                accordionContainer.appendChild(itemEl);
+            });
+
+            const headers = document.querySelectorAll('.accordion-header');
+            headers.forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    const isActive = header.classList.contains('active');
+
+                    headers.forEach(h => {
+                        h.classList.remove('active');
+                        h.nextElementSibling.style.maxHeight = null;
+                    });
+                    
+                    if(!isActive){
+                        header.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+        });
+		document.addEventListener('contextmenu', event => event.preventDefault());
+    </script>
+</body>
+</html>

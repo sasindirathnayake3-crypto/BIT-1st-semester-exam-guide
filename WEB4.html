@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT 1st Semester Web Design Summary (HTML, Tables, Links)</title>
+    <style>
+        /* General Reset and Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f9; /* Light, calming background */
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: #007bff; /* Primary BIT/Tech blue */
+            color: white;
+            padding: 30px 20px;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+            margin: -20px -20px 30px -20px; /* Extend to container edges */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        /* Section Styling */
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-left: 5px solid #007bff;
+            background-color: #e9f5ff; /* Lighter shade for content */
+            border-radius: 8px;
+        }
+
+        .section h2 {
+            color: #0056b3;
+            font-size: 1.8em;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #007bff50;
+            padding-bottom: 5px;
+        }
+
+        /* List Styling */
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding: 8px 0;
+            border-bottom: 1px dotted #ccc;
+            margin-left: 20px;
+            position: relative;
+        }
+
+        ul li::before {
+            content: '•';
+            color: #28a745; /* Success green bullet point */
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            overflow: hidden; /* Ensures rounded corners work */
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f8ff;
+            color: #007bff;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        /* Hyperlink Styling (Completed Section) */
+        a {
+            color: #ff5722; /* Vibrant orange/coral for links */
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #e64a19;
+            text-decoration: underline;
+        }
+
+        /* Code Block Styling */
+        code {
+            background-color: #ffe0b2;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            color: #d84315;
+            font-size: 0.95em;
+        }
+        
+        pre {
+            background-color: #263238; /* Dark background for code blocks */
+            color: #c3e88d; /* Light green/yellow text */
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-top: 15px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        /* Responsive Adjustments for Mobile */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 10px;
+            }
+            header h1 {
+                font-size: 1.8em;
+            }
+            .section {
+                padding: 15px;
+            }
+
+            /* Responsive Table: Stacking cells */
+            table, thead, tbody, th, td, tr { 
+                display: block; 
+            }
+            thead tr { 
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            tr { border: 1px solid #ccc; margin-bottom: 10px; border-radius: 8px; }
+            td { 
+                border: none;
+                border-bottom: 1px solid #eee; 
+                position: relative;
+                padding-left: 50%; 
+                text-align: right;
+            }
+            td:last-child {
+                border-bottom: 0;
+            }
+            td::before { 
+                /* Now like a table header */
+                position: absolute;
+                top: 0;
+                left: 6px;
+                width: 45%; 
+                padding-right: 10px; 
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+                color: #007bff;
+                /* Use the data-label attribute for the header text */
+                content: attr(data-label);
+            }
+        }
+    </style>
+</head>
+<body id="top">
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <h1>BIT 1st Semester Web Design Summary</h1>
+            <p>Essential concepts: HTML Structure, Tables, and Hyperlinks</p>
+        </header>
+
+        <!-- SECTION 1: HTML BASICS -->
+        <div id="html-basics" class="section">
+            <h2>1. HTML Basics: Structure & Core Elements</h2>
+            <p>HTML (HyperText Markup Language) provides the fundamental structure for every web page. It uses **elements** and **tags** to define content like headings, paragraphs, and lists.</p>
+            
+            <h3>Key Structural Tags</h3>
+            <ul>
+                <li><code>&lt;!DOCTYPE html&gt;</code>: Defines the document type and version of HTML (must be the first line).</li>
+                <li><code>&lt;html lang="en"&gt;</code>: The root element of an HTML page, encapsulating all other content.</li>
+                <li><code>&lt;head&gt;</code>: Contains meta-information about the HTML document (like the title, character set, and links to stylesheets).</li>
+                <li><code>&lt;body&gt;</code>: Contains the visible page content, including text, images, links, tables, and media.</li>
+            </ul>
+
+            <h3>Common Content Tags</h3>
+            <ul>
+                <li>**Headings:** <code>&lt;h1&gt;</code> to <code>&lt;h6&gt;</code> for defining section hierarchy.</li>
+                <li>**Paragraphs:** <code>&lt;p&gt;</code> for standard text blocks.</li>
+                <li>**Formatting:** <code>&lt;strong&gt;</code> or <code>&lt;b&gt;</code> for bold text, <code>&lt;em&gt;</code> or <code>&lt;i&gt;</code> for emphasized/italic text.</li>
+                <li>**Line Break:** <code>&lt;br&gt;</code> (a self-closing tag for a carriage return).</li>
+                <li>**Divider:** <code>&lt;hr&gt;</code> (a self-closing tag for a horizontal rule).</li>
+            </ul>
+        </div>
+
+        <!-- SECTION 2: HTML TABLES -->
+        <div id="html-tables" class="section">
+            <h2>2. HTML Tables: Organizing Tabular Data</h2>
+            <p>The <code>&lt;table&gt;</code> element is used to present data in rows and columns. It's crucial for tabular data, but should **not** be used for general page layout.</p>
+
+            <h3>Core Table Tags</h3>
+            <ul>
+                <li><code>&lt;table&gt;</code>: The container for the entire table.</li>
+                <li><code>&lt;tr&gt;</code>: Defines a table row.</li>
+                <li><code>&lt;th&gt;</code>: Defines a table header cell (usually bold and centered).</li>
+                <li><code>&lt;td&gt;</code>: Defines a standard table data cell.</li>
+                <li><code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code>, <code>&lt;tfoot&gt;</code>: Used for semantic grouping of content (Header, Body, Footer).</li>
+            </ul>
+
+            <h3>Span Attributes (Merging Cells)</h3>
+            <table aria-label="Table of Table Cell Span Attributes">
+                <thead>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Function</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Attribute"><code>colspan</code></td>
+                        <td data-label="Function">Merges a cell across multiple columns horizontally.</td>
+                        <td data-label="Example"><code>&lt;td colspan="2"&gt;</code></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Attribute"><code>rowspan</code></td>
+                        <td data-label="Function">Merges a cell down multiple rows vertically.</td>
+                        <td data-label="Example"><code>&lt;td rowspan="3"&gt;</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECTION 3: HYPERLINKS -->
+        <div id="html-links" class="section">
+            <h2>3. Hyperlinks: The <code>&lt;a&gt;</code> Tag</h2>
+            <p>The anchor element (<code>&lt;a&gt;</code>) is the core mechanism for navigation, linking one page to another, or one section to another within the same page.</p>
+
+            <h3>Essential Attributes</h3>
+            <ul>
+                <li>**<code>href</code> (Hypertext Reference):** Specifies the destination URL (required). This can be an external website, a local file, or a section ID.</li>
+                <li>**<code>target</code>:** Specifies where to open the linked document.</li>
+            </ul>
+
+            <h3>Common <code>target</code> Values</h3>
+            <pre>
+_self    - Opens the link in the same window/tab (default).
+_blank   - Opens the link in a new window/tab.
+_parent  - Opens the link in the parent frame (if using frames).
+_top     - Opens the link in the full body of the window.
+            </pre>
+
+            <h3>Link Types Example</h3>
+            <p>
+                1. **External Link:** <a href="https://www.google.com" target="_blank">Google Search (Opens in new tab)</a><br>
+                2. **Internal Link (to section):** <a href="#html-basics">Go to HTML Basics Section</a><br>
+                3. **Email Link:** <a href="mailto:your.email@example.com">Send Email</a>
+            </p>
+            <p>
+                Don't forget the **fragment identifier** (e.g., <code>&lt;a href="#top"&gt;</code>) to jump to the top of the page!
+            </p>
+        </div>
+        
+        <!-- FOOTER / RETURN TO TOP -->
+        <div class="section" style="border-left: 5px solid #28a745; background-color: #e9fff5; text-align: center;">
+            <p>End of Summary. <a href="#top">Return to Top</a></p>
+        </div>
+
+    </div>
+	<script>document.addEventListener('contextmenu', event => event.preventDefault());</script>
+</body>
+</html>
